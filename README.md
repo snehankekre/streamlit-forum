@@ -53,4 +53,4 @@ with discourse():
     import numpy as np
     np.rounds()
 ```
-![Example](example.png)
+![Example](streamlit-discourse.gif)

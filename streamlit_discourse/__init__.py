@@ -125,7 +125,7 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
     >>>     st.what()
 
     """
-    try:
+    try: # try block borrowed from https://github.com/streamlit/streamlit/blob/develop/lib/streamlit/echo.py
         from streamlit import code, warning, empty, source_util
 
         placeholder = empty()

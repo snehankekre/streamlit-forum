@@ -7,21 +7,7 @@ Streamlit component to display [Streamlit-Discourse](https://discuss.streamlit.i
 pip install git+https://github.com/snehankekre/streamlit-discourse
 ```
 
-### Usage
-
-```python
-import streamlit as st
-from streamlit_discourse import discourse
-
-with discourse():
-    import streamlit as st
-    # Your code that may raise an exception here. E.g.
-    import numpy as np
-    np.rounds()
-```
-![Example](example.png)
-
-### Docs
+## Docs
 
 To view the docstring, import Streamlit and the component and call `st.help(discourse)`.
 
@@ -54,3 +40,17 @@ Examples
 >>>     st.what()
 
 ```
+
+## Usage
+
+```python
+import streamlit as st
+from streamlit_discourse import discourse
+
+with discourse():
+    import streamlit as st
+    # Your code that may raise an exception here. E.g.
+    import numpy as np
+    np.rounds()
+```
+![Example](example.png)

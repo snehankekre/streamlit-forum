@@ -1,16 +1,12 @@
 import streamlit as st
 
 from contextlib import contextmanager
-import re
 from urllib.parse import urljoin, urlencode
 import pandas as pd
 import requests
 
 _BASE_URL = "https://discuss.streamlit.io"
 _TTL = 1 * 60 * 60  # 1 hour
-
-_SPACES_RE = re.compile("\\s*")
-_EMPTY_LINE_RE = re.compile("\\s*\n")
 
 _ALLOWED_SORTS = ["latest", "likes", "views", "latest_topic"]
 _ALLOWED_STATUSES = [

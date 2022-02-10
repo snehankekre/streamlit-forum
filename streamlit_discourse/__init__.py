@@ -122,6 +122,17 @@ def _display_result(result):
         st.markdown(topic_url)
 
 
+def _format_result(result):
+    links = []
+
+    for topic_id, title in result[["id", "title"]].values:
+        topic_url = _BASE_URL + "/t/" + str(topic_id)
+        topic_url = f"- [{title}]({topic_url})"
+        links.append(topic_url)
+
+    return "\n".join(links)
+
+
 @contextmanager
 def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
     """Use in a `with` block to execute some code and display

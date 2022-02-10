@@ -50,7 +50,6 @@ from streamlit_discourse import discourse
 with discourse():
     import streamlit as st
     # Your code that may raise an exception here. E.g.
-    import numpy as np
-    np.rounds()
+    0/0
 ```
 ![Example](streamlit-discourse.gif)

@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="streamlit-discourse",
-    version="0.0.1",
+    version="0.0.2",
     author="Snehan Kekre",
     author_email="snehan@streamlit.io",
     description="Streamlit component to display Streamlit-Discourse topics related to any exception.",

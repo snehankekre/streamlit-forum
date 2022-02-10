@@ -152,7 +152,7 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
     >>> with discourse():
     >>>     import streamlit as st
     >>>     # Your code that may raise an exception here. E.g.
-    >>>     st.what()
+    >>>     0/0
 
     """
     try:

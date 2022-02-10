@@ -95,7 +95,7 @@ def _get_data(etype, str_exception, top, criteria, sortby, status):
 
     # TODO: Improve above search logic
 
-    # See: https://docs.discourse.org/#tag/Search    
+    # See: https://docs.discourse.org/#tag/Search
     if sortby in _ALLOWED_SORTS:
         query = query + f" order:{sortby}"
 
@@ -111,7 +111,7 @@ def _get_data(etype, str_exception, top, criteria, sortby, status):
 
     result = result.head(top)
 
-    return _display_result(result)
+    return result
 
 
 def _display_result(result):
@@ -159,7 +159,9 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
         etype = type(e).__name__  # e.g. 'ValueError', 'TypeError'
         str_exception = e  # e.g. invalid literal for int() with base 10: 'foo'
 
-        _get_data(etype, str_exception, top, criteria, sortby, status)
+        discourse_links = _get_data(etype, str_exception, top, criteria, sortby, status)
+
+        _display_result(discourse_links)
 
         # If the code in the `with` block raises an exception,
         # re-raise it so that the user sees the error.

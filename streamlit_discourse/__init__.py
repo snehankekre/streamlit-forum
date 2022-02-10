@@ -164,4 +164,7 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
         str_exception = e  # e.g. invalid literal for int() with base 10: 'foo'
 
         _get_data(etype, str_exception, top, criteria, sortby, status)
+
+        # If the code in the `with` block raises an exception,
+        # re-raise it so that the user sees the error.
         raise e

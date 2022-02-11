@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from urllib.parse import urljoin, urlencode
 import pandas as pd
 import requests
+import traceback
 
 _BASE_URL = "https://discuss.streamlit.io"
 _TTL = 1 * 60 * 60  # 1 hour
@@ -95,7 +96,7 @@ def _get_data(etype, str_exception, top, criteria, sortby, status):
 
     # TODO: Improve above search logic
 
-    # See: https://docs.discourse.org/#tag/Search    
+    # See: https://docs.discourse.org/#tag/Search
     if sortby in _ALLOWED_SORTS:
         query = query + f" order:{sortby}"
 
@@ -111,7 +112,7 @@ def _get_data(etype, str_exception, top, criteria, sortby, status):
 
     result = result.head(top)
 
-    return _display_result(result)
+    return result
 
 
 def _display_result(result):
@@ -120,6 +121,17 @@ def _display_result(result):
         topic_url = _BASE_URL + "/t/" + str(topic_id)
         topic_url = f"- [{title}]({topic_url})"
         st.markdown(topic_url)
+
+
+def _format_result(result):
+    links = []
+
+    for topic_id, title in result[["id", "title"]].values:
+        topic_url = _BASE_URL + "/t/" + str(topic_id)
+        topic_url = f"- [{title}]({topic_url})"
+        links.append(topic_url)
+
+    return "\n".join(links)
 
 
 @contextmanager
@@ -157,10 +169,28 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
 
     except Exception as e:
         etype = type(e).__name__  # e.g. 'ValueError', 'TypeError'
-        str_exception = e  # e.g. invalid literal for int() with base 10: 'foo'
 
-        _get_data(etype, str_exception, top, criteria, sortby, status)
+        # Get traceback from exception.
+        # Filter out the first frame which displays this function's 'yield' statement.
+        etraceback = traceback.format_tb(e.__traceback__)[1:]
 
-        # If the code in the `with` block raises an exception,
-        # re-raise it so that the user sees the error.
-        raise e
+        # Flatten traceback frame messages.
+        # Remove the first two spaces of each line to fix markdown code block indentation.
+        etraceback = (line[2:] for frame in etraceback for line in frame.splitlines())
+        etraceback = "\n".join(etraceback)
+
+        # Retrieve Discourse links.
+        discourse_links = _get_data(etype, e, top, criteria, sortby, status)
+        discourse_links = _format_result(discourse_links)
+
+        # Generate each part of our error message.
+        msg_error = f"**{etype}**: {e}"
+        msg_links = f"Related Discourse Topics:\n\n{discourse_links}"
+        msg_traceback = f"Related Discourse Topics:\n\n```\n{etraceback}\n```"
+
+        # Build the final message.
+        msg = "\n\n".join((msg_error, msg_links, msg_traceback))
+
+        # Display it, and stop the script.
+        st.error(msg)
+        st.stop()

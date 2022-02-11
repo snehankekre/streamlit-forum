@@ -107,7 +107,7 @@ def _get_data(etype, str_exception, top, criteria, sortby, status):
         result = _fetch_all_topic_pages(q=query)
     except Exception as e:
         return st.error(
-            "[streamlit-discourse] No topics found. Try setting criteria to 'broad'"
+            "[streamlit-forum] No topics found. Try setting criteria to 'broad'"
         )
 
     result = result.head(top)
@@ -115,29 +115,23 @@ def _get_data(etype, str_exception, top, criteria, sortby, status):
     return result
 
 
-def _display_result(result):
-    st.markdown("##### Related Discourse Topics")
-    for topic_id, title in result[["id", "title"]].values:
-        topic_url = _BASE_URL + "/t/" + str(topic_id)
-        topic_url = f"- [{title}]({topic_url})"
-        st.markdown(topic_url)
-
-
 def _format_result(result):
     links = []
 
-    for topic_id, title in result[["id", "title"]].values:
+    for topic_id, title, status in result[["id", "title", "has_accepted_answer"]].values:
         topic_url = _BASE_URL + "/t/" + str(topic_id)
         topic_url = f"- [{title}]({topic_url})"
+        if status:
+            topic_url += " [✅ Solved]"
         links.append(topic_url)
 
     return "\n".join(links)
 
 
 @contextmanager
-def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
+def forum(top=5, criteria="broad", sortby="relevance", status="any"):
     """Use in a `with` block to execute some code and display
-    Streamlit-Discourse topics related to any exception.
+    topics from Streamlit's community forum related to any exception.
 
     Parameters
     ----------
@@ -149,15 +143,15 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
         Sort criteria. Either 'relevance', 'views', 'likes', or 'latest_topic'.
         Default is 'relevance'.
     status : str
-        Status of Discourse topic. Either 'open', 'closed', 'public', 'archived',
+        Status of forum topic. Either 'open', 'closed', 'public', 'archived',
         'noreplies', 'single_user', 'solved', 'unsolved'. Default is 'any'.
 
     Examples
     --------
     >>> import streamlit as st
-    >>> from streamlit_discourse import discourse
+    >>> from streamlit_forum import forum
     ...
-    >>> with discourse():
+    >>> with forum():
     >>>     import streamlit as st
     >>>     # Your code that may raise an exception here. E.g.
     >>>     0/0
@@ -179,18 +173,41 @@ def discourse(top=5, criteria="broad", sortby="relevance", status="any"):
         etraceback = (line[2:] for frame in etraceback for line in frame.splitlines())
         etraceback = "\n".join(etraceback)
 
-        # Retrieve Discourse links.
-        discourse_links = _get_data(etype, e, top, criteria, sortby, status)
-        discourse_links = _format_result(discourse_links)
+        # Retrieve forum links.
+        forum_links = _get_data(etype, e, top, criteria, sortby, status)
+        forum_links = _format_result(forum_links)
 
         # Generate each part of our error message.
         msg_error = f"**{etype}**: {e}"
-        msg_links = f"Related Discourse Topics:\n\n{discourse_links}"
-        msg_traceback = f"Related Discourse Topics:\n\n```\n{etraceback}\n```"
+        msg_links = f"Related forum topics:\n\n{forum_links}"
+        msg_traceback = f"Traceback:\n\n```\n{etraceback}\n```"
 
         # Build the final message.
         msg = "\n\n".join((msg_error, msg_links, msg_traceback))
 
-        # Display it, and stop the script.
+        # Display it
         st.error(msg)
+
+        with st.expander("Stuck ?"):
+            st.markdown("""
+            Don't see a relevant topic? Try changing the criteria to `narrow` 
+            or tweaking the other parameters.
+            """)
+
+            if st.checkbox("View available parameters 🛠️"):
+                st.help(forum)
+    
+            if st.checkbox("Read Streamlit's docs 🔍"):
+                st.components.v1.iframe(
+                    "https://docs.streamlit.io/knowledge-base/", 
+                    height=500,
+                    scrolling=True
+                )
+
+            if st.button("Still need help? 🤔"):
+                st.markdown("""
+                If you still need help, please post on the [community forum](https://discuss.streamlit.io/). 
+                We love to hear your questions, ideas, and help you work through your bugs — stop by today! 🎈
+                """)
+        # Stop the script
         st.stop()

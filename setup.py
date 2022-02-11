@@ -1,14 +1,14 @@
 import setuptools
 
 setuptools.setup(
-    name="streamlit-discourse",
-    version="0.0.2",
+    name="streamlit-forum",
+    version="0.0.3",
     author="Snehan Kekre",
     author_email="snehan@streamlit.io",
-    description="Streamlit component to display Streamlit-Discourse topics related to any exception.",
-    long_description="Streamlit component to display Streamlit-Discourse topics related to any exception.",
+    description="Streamlit component to display topics from Streamlit's community forum related to any exception.",
+    long_description="Streamlit component to display topics from Streamlit's community forum related to any exception.",
     long_description_content_type="text/plain",
-    url="https://github.com/snehankekre/streamlit-discourse",
+    url="https://github.com/snehankekre/streamlit-forum",
     packages=setuptools.find_packages(),
     include_package_data=True,
     classifiers=[],

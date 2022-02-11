@@ -1,33 +1,33 @@
-# streamlit-discourse
-Streamlit component to display [Streamlit-Discourse](https://discuss.streamlit.io/) topics related to any exception.
+# streamlit-forum
+Streamlit component to display topics from Streamlit's [community forum](https://discuss.streamlit.io/) related to any exception.
 
 ## Installation
 
 ```bash
-pip install git+https://github.com/snehankekre/streamlit-discourse
+pip install git+https://github.com/snehankekre/streamlit-forum
 ```
 
 ## Usage
 
 ```python
 import streamlit as st
-from streamlit_discourse import discourse
+from streamlit_forum import forum
 
-with discourse():
+with forum():
     import streamlit as st
     # Your code that may raise an exception here. E.g.
     0/0
 ```
-![Example](streamlit-discourse.gif)
+![Example](streamlit-forum.gif)
 
 ## Docs
 
-To view the docstring, import Streamlit and the component and call `st.help(discourse)`.
+To view the docstring, import Streamlit and the component and call `st.help(forum)`.
 
 ```markdown
-streamlit_discourse.discourse(top=5, criteria='broad', sortby='relevance', status='any')
+streamlit_forum.forum(top=5, criteria='broad', sortby='relevance', status='any')
 Use in a `with` block to execute some code and display 
-Streamlit-Discourse topics related to any exception.
+topics from Streamlit's community forum related to any exception.
 
 Parameters
 ----------
@@ -39,15 +39,15 @@ sortby : str
     Sort criteria. Either 'relevance', 'views', 'likes', or 'latest_topic'.
     Default is 'relevance'.
 status : str
-    Status of Discourse topic. Either 'open', 'closed', 'public', 'archived',
+    Status of forum topic. Either 'open', 'closed', 'public', 'archived',
     'noreplies', 'single_user', 'solved', 'unsolved'. Default is 'any'.
 
 Examples
 --------
 >>> import streamlit as st
->>> from streamlit_discourse import discourse
+>>> from streamlit_forum import forum
 ...
->>> with discourse():
+>>> with forum():
 >>>     import streamlit as st
 >>>     # Your code that may raise an exception here. E.g.
 >>>     0/0

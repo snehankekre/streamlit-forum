@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="streamlit-forum",
-    version="0.0.3",
+    version="0.0.1",
     author="Snehan Kekre",
     author_email="snehan@streamlit.io",
     description="Streamlit component to display topics from Streamlit's community forum related to any exception.",

@@ -4,7 +4,7 @@ Streamlit component to display topics from Streamlit's [community forum](https:/
 ## Installation
 
 ```bash
-pip install git+https://github.com/snehankekre/streamlit-forum
+pip install streamlit-forum
 ```
 
 ## Usage

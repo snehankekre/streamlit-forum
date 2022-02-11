@@ -3,6 +3,8 @@ Streamlit component to display topics from Streamlit's [community forum](https:/
 
 ## Installation
 
+[![PyPI version fury.io](https://badge.fury.io/py/streamlit-forum.svg)](https://pypi.python.org/pypi/streamlit-forum/)
+
 ```bash
 pip install streamlit-forum
 ```

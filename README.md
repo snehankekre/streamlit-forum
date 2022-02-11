@@ -18,7 +18,8 @@ with forum():
     # Your code that may raise an exception here. E.g.
     0/0
 ```
-![Example](streamlit-forum.mp4)
+
+https://user-images.githubusercontent.com/20672874/153559386-02d1eee9-267e-4438-b760-e853244f5e63.mp4
 
 ## Docs
 
